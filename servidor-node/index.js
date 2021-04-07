@@ -14,8 +14,14 @@ MongoClient.connect(uri, {useUnifiedTopology: true, useNewUrlParser: true}, (err
 app.listen(3001, () =>
     console.log("servidor ouvindo na posta 3001")
 );
-app.post("ae",function(req, res) {
-    db.collection.insertOne({
-        
+app.post("/ae",function(req, res) {
+    ColesaoBanco.insertOne({
+        nome: req.body.nome,
+        idade: req.body.idade,
+        createAt: new Date,
+        qualidade: req.body.qualidade,
+    }).then(() => {
+        res.json(true)
     })
+    console.log('está funcionando')
 })
