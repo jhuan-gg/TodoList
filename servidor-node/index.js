@@ -1,27 +1,29 @@
-const express = require('express');
-const app = express();
+const app = require('express')();
 const MongoClient = require("mongodb").MongoClient;
+const ObjectId = require('mongodb').ObjectId
+const json = require('express').json
+const cors = require('cors')
 
 const uri = 'mongodb://elfoestae:root123@localhost:27017';
 
 MongoClient.connect(uri, {useUnifiedTopology: true, useNewUrlParser: true}, (err, client) => {
-    if (err) return console.log(err)
+    if (err) return console.log("deu erro seu merda estuda mais"+err)
     console.log('o andré é um bosta')
-    const n1 = client.db("banco").collection("ColesaoBanco")
-    
-})
+    const one = client.db('banco').collection('ColesaoBanco')
+ 
 
-app.listen(3001, () =>
-    console.log("servidor ouvindo na posta 3001")
-);
+app.use(cors("http://localhost:3000"))
+app.use(json())
 app.post("/ae",function(req, res) {
-    ColesaoBanco.insertOne({
+    one.insertOne({
         nome: req.body.nome,
-        idade: req.body.idade,
         createAt: new Date,
-        qualidade: req.body.qualidade,
     }).then(() => {
         res.json(true)
     })
-    console.log('está funcionando')
+    console.log('está funcionando', req.body)
+})
+app.listen(3001, () =>
+    console.log("servidor ouvindo na posta 3001")
+);
 })
